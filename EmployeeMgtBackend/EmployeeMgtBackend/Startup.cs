@@ -1,7 +1,13 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using EmployeeBusinessLayer;
+using EmployeeBusinessLayer.IEmployeeBusiness;
+using EmployeeRepository;
+using EmployeeRepositoryLayer;
+using EmployeeRepositoryLayer.IRepository;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -26,6 +32,11 @@ namespace EmployeeMgtBackend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddDbContext<EmployeeDBContext>
+            (options => options.UseSqlServer(Configuration["Data:ConnectionStrings:DefaultConnection"]));
+            services.AddTransient<IEmployeeRepository, EmployeRepository>();
+            services.AddTransient<IEmployeeBusines, EmployeeBusiness>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

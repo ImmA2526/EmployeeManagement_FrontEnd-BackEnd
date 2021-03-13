@@ -1,8 +1,9 @@
-﻿using System;
+﻿using EmployeeBusinessLayer.IEmployeeBusiness;
+using System;
 
 namespace EmployeeBusinessLayer
 {
-    public class EmployeeBusiness
+    public class EmployeeBusiness :IEmployeeBusines
     {
     }
 }

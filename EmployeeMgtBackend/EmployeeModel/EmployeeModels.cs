@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EmployeeModel
 {
-    public class EmployeeModel
+    public class EmployeeModels
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

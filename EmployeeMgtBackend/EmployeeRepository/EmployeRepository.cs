@@ -1,8 +1,9 @@
-﻿using System;
+﻿using EmployeeRepositoryLayer.IRepository;
+using System;
 
 namespace EmployeeRepository
 {
-    public class EmployeRepository
+    public class EmployeRepository :IEmployeeRepository
     {
     }
 }
