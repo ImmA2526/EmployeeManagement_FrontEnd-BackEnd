@@ -63,13 +63,61 @@ namespace EmployeeMgtBackend.Controllers
                 var logins = this.employeeBusiness.LoginUser(login);
                 if (logins != null)
                 {
-                    return this.Ok(new { Status = true, Message = "Login Success", Data = logins });
+                    return this.Ok(new { Status = true, Message = "Login Success", Data = login });
                 }
                 return this.NotFound(new { Status = false, Message = "Login Failed" });
             }
             catch (Exception e)
             {
                 return this.BadRequest(new { Status = false, Message = e.Message });
+            }
+        }
+
+        /// <summary>
+        /// Retrive All Employee
+        /// </summary>
+        /// <returns></returns>
+
+        [HttpGet]
+        public IActionResult GetAllEmployee()
+        {
+            try
+            {
+                IEnumerable<EmployeeModels>getResult=this.employeeBusiness.GetAllEmployees() ;
+                if (getResult != null)
+                {
+                    return this.Ok(new { Status = true, Meessage = "Employee Data Retrived Successfully", Data = getResult });
+                }
+                return this.NotFound(new { Status = false, Message = "Employee Data Not Found" });
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(new { Status = false, Message = e.Message });            
+            }
+        }
+
+        /// <summary>
+        /// Retrive Employee By Employee ID for Performing Update Operation 
+        /// </summary>
+        /// <param name="employeeId">The employee identifier.</param>
+        /// <returns></returns>
+
+        [HttpGet]
+        [Route("getBy/{employeeId}")]
+        public IActionResult GetEmployee_ID(int employeeId)
+        {
+            try
+            {
+                IEnumerable<EmployeeModels> getResult = this.employeeBusiness.GetEmployee_ID(employeeId);
+                if (getResult != null)
+                {
+                    return this.Ok(new { Status = true, Meessage = "Employee Data Retrived Successfully", Data = getResult });
+                }
+                return this.BadRequest(new { Status = false, Message = "Employee Data Not Found" });
+            }
+            catch (Exception e)
+            {
+                return this.NotFound(new { Status = false, Message = e.Message });
             }
         }
     }

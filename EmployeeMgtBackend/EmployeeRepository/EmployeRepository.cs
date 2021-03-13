@@ -3,6 +3,7 @@ using EmployeeModelLayer;
 using EmployeeRepositoryLayer;
 using EmployeeRepositoryLayer.IRepository;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -112,6 +113,46 @@ namespace EmployeeRepository
             catch (Exception e)
             {
                 throw new Exception("Error While Login " + e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get All Employees From Data Base
+        /// </summary>
+        /// <param name="employeeId"></param>
+        /// <returns></returns>
+
+        public IEnumerable<EmployeeModels> GetAllEmployees()
+        {
+            try
+            {
+                IEnumerable<EmployeeModels> getResult = new List<EmployeeModels>();
+                getResult = employeeContext.EmployeeTable.ToList();
+                return getResult;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error While Fetching All Employee List"+e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Retrive Employee By Employee ID for Performing Update Operation 
+        /// </summary>
+        /// <param name="employeeId"></param>
+        /// <returns></returns>
+        
+        public IEnumerable<EmployeeModels> GetEmployee_ID(int employeeId)
+        {
+            try
+            {
+                List<EmployeeModels> getResult = new List<EmployeeModels>();
+                getResult.Add(employeeContext.EmployeeTable.Find(employeeId));
+                return getResult;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error While Fetching Particular Employee Data" + e.Message);
             }
         }
     }

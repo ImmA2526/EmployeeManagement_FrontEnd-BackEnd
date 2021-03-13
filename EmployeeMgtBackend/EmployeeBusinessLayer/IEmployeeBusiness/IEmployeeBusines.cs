@@ -11,5 +11,9 @@ namespace EmployeeBusinessLayer.IEmployeeBusiness
         EmployeeModels RegisterEmployee(EmployeeModels create);
 
         EmployeeModels LoginUser(LoginModel login);
+
+        IEnumerable<EmployeeModels> GetAllEmployees();
+
+        IEnumerable<EmployeeModels> GetEmployee_ID(int employeeId);
     }
 }

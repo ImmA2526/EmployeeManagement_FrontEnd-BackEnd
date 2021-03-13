@@ -3,6 +3,7 @@ using EmployeeModel;
 using EmployeeModelLayer;
 using EmployeeRepositoryLayer.IRepository;
 using System;
+using System.Collections.Generic;
 
 namespace EmployeeBusinessLayer
 {
@@ -27,5 +28,16 @@ namespace EmployeeBusinessLayer
             return logins;
         }
 
+        public IEnumerable<EmployeeModels> GetAllEmployees()
+        {
+            var getEmployee = employeeRepo.GetAllEmployees();
+            return getEmployee;
+        }
+
+        public IEnumerable<EmployeeModels> GetEmployee_ID(int employeeId)
+        {
+            var getById = employeeRepo.GetEmployee_ID(employeeId);
+            return getById;
+        }
     }
 }
