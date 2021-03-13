@@ -155,5 +155,26 @@ namespace EmployeeRepository
                 throw new Exception("Error While Fetching Particular Employee Data" + e.Message);
             }
         }
+
+        /// <summary>
+        /// Update Employee Record By Employee Id 
+        /// </summary>
+        /// <param name="update"></param>
+        /// <returns></returns>
+        
+        public EmployeeModels UpdateEmployee(EmployeeModels updateEmployee)
+        {
+            try
+            {
+                //var updateResult = this.employeeContext.EmployeeTable.Where<EmployeeModels>(update => update.EmployeeId==updateEmployee.EmployeeId).SingleOrDefault();
+                this.employeeContext.EmployeeTable.Update(updateEmployee);
+                this.employeeContext.SaveChangesAsync();
+                return updateEmployee;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error While Updating Record Employee Data" + e.Message);
+            }
+        }
     }
 }

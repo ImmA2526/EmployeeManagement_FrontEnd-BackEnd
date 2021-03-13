@@ -15,5 +15,7 @@ namespace EmployeeBusinessLayer.IEmployeeBusiness
         IEnumerable<EmployeeModels> GetAllEmployees();
 
         IEnumerable<EmployeeModels> GetEmployee_ID(int employeeId);
+
+        EmployeeModels UpdateEmployee(EmployeeModels updateEmployee);
     }
 }

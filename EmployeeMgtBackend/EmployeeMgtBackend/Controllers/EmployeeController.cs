@@ -120,5 +120,29 @@ namespace EmployeeMgtBackend.Controllers
                 return this.NotFound(new { Status = false, Message = e.Message });
             }
         }
+
+        /// <summary>
+        /// Updates the employee.
+        /// </summary>
+        /// <param name="employeeId">The employee identifier.</param>
+        /// <returns></returns>
+
+        [HttpPut]
+        public IActionResult UpdateEmployee(EmployeeModels updateEmployee)
+        {
+            try
+            {
+                var updateResult = this.employeeBusiness.UpdateEmployee(updateEmployee);
+                if (updateResult != null)
+                {
+                    return this.Ok(new { Status = true, Meessage = "Employee Record Updated Successfully", Data = updateResult });
+                }
+                return this.NotFound(new { Status = false, Message = "Employee Data Not Found" });
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(new { Status = false, Message = e.Message });
+            }
+        }
     }
 }

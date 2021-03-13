@@ -39,5 +39,11 @@ namespace EmployeeBusinessLayer
             var getById = employeeRepo.GetEmployee_ID(employeeId);
             return getById;
         }
+
+        public EmployeeModels UpdateEmployee(EmployeeModels updateEmployee)
+        {
+            var updateRecord = employeeRepo.UpdateEmployee(updateEmployee);
+            return updateRecord;
+        }
     }
 }
