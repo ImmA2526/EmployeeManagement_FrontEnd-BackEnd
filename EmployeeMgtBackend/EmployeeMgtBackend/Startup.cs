@@ -74,6 +74,7 @@ namespace EmployeeMgtBackend
 
             app.UseAuthentication();
             app.UseAuthentication();
+
             //Swagger Service 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
