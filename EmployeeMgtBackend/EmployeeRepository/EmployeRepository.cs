@@ -60,6 +60,34 @@ namespace EmployeeRepository
         }
 
         /// <summary>
+        /// Register Employee.
+        /// </summary>
+        /// <param name="create">The create.</param>
+        /// <returns></returns>
+        /// <exception cref="Exception">Error While Registering Employee" + e.Message</exception>
+
+        public EmployeeModels RegisterEmployee(EmployeeModels create)
+        {
+            try
+            {
+                string password = create.Password;
+                string encodePass = PasswordEncryption(password);
+                create.Password = encodePass;
+                employeeContext.EmployeeTable.Add(create);
+                var Result = employeeContext.SaveChanges();
+                if (Result > 0)
+                {
+                    return create;
+                }
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error While Registering Employee" + e.Message);
+            }
+        }
+
+        /// <summary>
         /// Login User 
         /// </summary>
         /// <param name="login">The login.</param>
@@ -85,11 +113,6 @@ namespace EmployeeRepository
             {
                 throw new Exception("Error While Login " + e.Message);
             }
-        }
-
-        public EmployeeModels CreateEmployee(EmployeeModels add)
-        {
-            throw new NotImplementedException();
         }
     }
 }

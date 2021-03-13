@@ -8,9 +8,8 @@ namespace EmployeeBusinessLayer.IEmployeeBusiness
 {
     public interface IEmployeeBusines
     {
+        EmployeeModels RegisterEmployee(EmployeeModels create);
+
         EmployeeModels LoginUser(LoginModel login);
-
-        EmployeeModels CreateEmployee(EmployeeModels add);
-
     }
 }

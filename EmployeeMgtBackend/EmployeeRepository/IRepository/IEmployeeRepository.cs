@@ -8,8 +8,8 @@ namespace EmployeeRepositoryLayer.IRepository
 {
     public interface IEmployeeRepository
     {
+        EmployeeModels RegisterEmployee(EmployeeModels create);
+        
         EmployeeModels LoginUser(LoginModel login);
-
-        EmployeeModels CreateEmployee(EmployeeModels add);
     }
 }

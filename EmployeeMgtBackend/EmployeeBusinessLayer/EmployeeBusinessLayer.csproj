@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EmployeeModel\EmployeeModelLayer.csproj" />
+    <ProjectReference Include="..\EmployeeRepository\EmployeeRepositoryLayer.csproj" />
   </ItemGroup>
 
 </Project>
