@@ -144,5 +144,30 @@ namespace EmployeeMgtBackend.Controllers
                 return this.BadRequest(new { Status = false, Message = e.Message });
             }
         }
+
+        /// <summary>
+        /// Delete Employee.
+        /// </summary>
+        /// <param name="employeeId">The employee identifier.</param>
+        /// <returns></returns>
+
+        [HttpDelete]
+        [Route("{employeeId}")]
+        public IActionResult DeleteEmployee(int employeeId)
+        {
+            try
+            {
+                var deleteEmployee = this.employeeBusiness.DeleteEmployee(employeeId);
+                if (deleteEmployee != null)
+                {
+                    return this.Ok(new { Status = true, Message = "Employee Removed Succesfully" });
+                }
+                return this.NotFound(new { Status = false, Message = "Error While Deleting Employee Record" });
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(new { Status = false, Message = e.Message });
+            }
+        }
     }
 }

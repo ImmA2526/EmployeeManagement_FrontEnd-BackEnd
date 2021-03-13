@@ -45,5 +45,11 @@ namespace EmployeeBusinessLayer
             var updateRecord = employeeRepo.UpdateEmployee(updateEmployee);
             return updateRecord;
         }
+
+        public string DeleteEmployee(int employeeId)
+        {
+            var deleteRecord = employeeRepo.DeleteEmployee(employeeId);
+            return deleteRecord;
+        }
     }
 }

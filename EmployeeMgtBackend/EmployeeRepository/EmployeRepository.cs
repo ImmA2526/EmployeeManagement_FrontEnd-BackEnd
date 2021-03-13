@@ -166,14 +166,46 @@ namespace EmployeeRepository
         {
             try
             {
-                //var updateResult = this.employeeContext.EmployeeTable.Where<EmployeeModels>(update => update.EmployeeId==updateEmployee.EmployeeId).SingleOrDefault();
-                this.employeeContext.EmployeeTable.Update(updateEmployee);
-                this.employeeContext.SaveChangesAsync();
-                return updateEmployee;
+                var updateResult = employeeContext.EmployeeTable.FirstOrDefault(e => e.EmployeeId == updateEmployee.EmployeeId);
+                string password =updateEmployee.Password;
+                string encodePass = PasswordEncryption(password);
+                updateEmployee.Password = encodePass;
+                
+                this.employeeContext.Update(updateResult);
+                var resul= this.employeeContext.SaveChanges();
+                if (resul > 0)
+                {
+                    return updateEmployee;
+                }
+                return null;
             }
             catch (Exception e)
             {
                 throw new Exception("Error While Updating Record Employee Data" + e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Delete Employee By Id 
+        /// </summary>
+        /// <param name="employeeId"></param>
+        /// <returns></returns>
+        public string DeleteEmployee(int employeeId)
+        {
+            try
+            {
+                EmployeeModels deleteEmployee = employeeContext.EmployeeTable.Find(employeeId);
+                if (deleteEmployee != null)
+                {
+                    employeeContext.EmployeeTable.Remove(deleteEmployee);
+                    employeeContext.SaveChangesAsync();
+                    return "RecordDeleted";
+                }
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error While Deleting Employee" + e.Message);
             }
         }
     }

@@ -17,5 +17,7 @@ namespace EmployeeRepositoryLayer.IRepository
         IEnumerable<EmployeeModels> GetEmployee_ID(int employeeId);
 
         EmployeeModels UpdateEmployee(EmployeeModels updateEmployee);
+
+        string DeleteEmployee(int employeeId);
     }
 }
