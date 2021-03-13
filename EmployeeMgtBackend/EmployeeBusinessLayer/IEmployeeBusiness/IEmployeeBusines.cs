@@ -18,6 +18,6 @@ namespace EmployeeBusinessLayer.IEmployeeBusiness
 
         EmployeeModels UpdateEmployee(EmployeeModels updateEmployee);
 
-        string DeleteEmployee(int employeeId);
+        EmployeeModels DeleteEmployee(int employeeId);
     }
 }

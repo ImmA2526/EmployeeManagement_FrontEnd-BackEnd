@@ -46,7 +46,7 @@ namespace EmployeeBusinessLayer
             return updateRecord;
         }
 
-        public string DeleteEmployee(int employeeId)
+        public EmployeeModels DeleteEmployee(int employeeId)
         {
             var deleteRecord = employeeRepo.DeleteEmployee(employeeId);
             return deleteRecord;

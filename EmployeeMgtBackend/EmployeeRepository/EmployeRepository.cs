@@ -2,6 +2,7 @@
 using EmployeeModelLayer;
 using EmployeeRepositoryLayer;
 using EmployeeRepositoryLayer.IRepository;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace EmployeeRepository
 {
     public class EmployeRepository : IEmployeeRepository
     {
+        public IConfiguration Configuration { get; }
         private readonly EmployeeDBContext employeeContext;
 
         //Constructor of the Class
@@ -166,12 +168,12 @@ namespace EmployeeRepository
         {
             try
             {
-                var updateResult = employeeContext.EmployeeTable.FirstOrDefault(e => e.EmployeeId == updateEmployee.EmployeeId);
+                //var updateResult = employeeContext.EmployeeTable.FirstOrDefault(e => e.EmployeeId == updateEmployee.EmployeeId);
                 string password =updateEmployee.Password;
                 string encodePass = PasswordEncryption(password);
                 updateEmployee.Password = encodePass;
                 
-                this.employeeContext.Update(updateResult);
+                this.employeeContext.Update(updateEmployee);
                 var resul= this.employeeContext.SaveChanges();
                 if (resul > 0)
                 {
@@ -190,7 +192,7 @@ namespace EmployeeRepository
         /// </summary>
         /// <param name="employeeId"></param>
         /// <returns></returns>
-        public string DeleteEmployee(int employeeId)
+        public EmployeeModels DeleteEmployee(int employeeId)
         {
             try
             {
@@ -199,7 +201,7 @@ namespace EmployeeRepository
                 {
                     employeeContext.EmployeeTable.Remove(deleteEmployee);
                     employeeContext.SaveChangesAsync();
-                    return "RecordDeleted";
+                    return deleteEmployee;
                 }
                 return null;
             }

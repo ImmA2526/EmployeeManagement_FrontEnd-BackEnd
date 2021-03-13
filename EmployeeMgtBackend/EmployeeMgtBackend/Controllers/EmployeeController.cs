@@ -2,10 +2,16 @@
 using EmployeeModel;
 using EmployeeModelLayer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace EmployeeMgtBackend.Controllers
@@ -17,11 +23,41 @@ namespace EmployeeMgtBackend.Controllers
     {
         private readonly IEmployeeBusines employeeBusiness;
         private readonly IConfiguration configuration;
+        
+        private IDistributedCache cache;
+        private string cacheKey;
+        private DistributedCacheEntryOptions options;
 
-        public EmployeeController(IEmployeeBusines employeeBusines,IConfiguration configuration)
+        public EmployeeController(IEmployeeBusines employeeBusines,IConfiguration configuration, IDistributedCache cache)
         {
             this.employeeBusiness = employeeBusines;
             this.configuration = configuration;
+            this.cache = cache;
+            this.cacheKey = "EmployeeMgt";
+            this.options = new DistributedCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromHours(3.0));
+        }
+
+    /// <summary>
+    /// JWTs Token genration.
+    /// </summary>
+    /// <param name="Email">The email.</param>
+    /// <returns></returns>
+
+    private string JWTTokenGenration(string Email)
+        {
+            var secretkey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Key"]));
+            var signinCredentials = new SigningCredentials(secretkey, SecurityAlgorithms.HmacSha256);
+            var claims = new List<Claim>
+            {
+                new Claim("Email",Email)
+            };
+            var tokenOption = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(45),
+                signingCredentials: signinCredentials
+                );
+            string token = new JwtSecurityTokenHandler().WriteToken(tokenOption);
+            return token;
         }
 
         /// <summary>
@@ -63,7 +99,8 @@ namespace EmployeeMgtBackend.Controllers
                 var logins = this.employeeBusiness.LoginUser(login);
                 if (logins != null)
                 {
-                    return this.Ok(new { Status = true, Message = "Login Success", Data = login });
+                    var token = JWTTokenGenration(logins.Email);
+                    return this.Ok(new { Status = true, Message = "Login Success", Data = token,logins.EmployeeId });
                 }
                 return this.NotFound(new { Status = false, Message = "Login Failed" });
             }
@@ -86,7 +123,13 @@ namespace EmployeeMgtBackend.Controllers
                 IEnumerable<EmployeeModels>getResult=this.employeeBusiness.GetAllEmployees() ;
                 if (getResult != null)
                 {
-                    return this.Ok(new { Status = true, Meessage = "Employee Data Retrived Successfully", Data = getResult });
+                    this.cache.SetString(this.cacheKey, JsonConvert.SerializeObject(getResult));
+                }
+                
+                if (this.cache.GetString(this.cacheKey)!= null)
+                {
+                    var data = JsonConvert.DeserializeObject<List<EmployeeModels>>(this.cache.GetString(this.cacheKey));
+                    return this.Ok(new { Status = true, Meessage = "Employee Data Retrived Successfully", Data = data });
                 }
                 return this.NotFound(new { Status = false, Message = "Employee Data Not Found" });
             }

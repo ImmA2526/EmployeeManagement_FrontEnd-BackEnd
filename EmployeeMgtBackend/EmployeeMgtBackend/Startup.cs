@@ -3,6 +3,7 @@ using EmployeeBusinessLayer.IEmployeeBusiness;
 using EmployeeRepository;
 using EmployeeRepositoryLayer;
 using EmployeeRepositoryLayer.IRepository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,10 +13,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace EmployeeMgtBackend
@@ -39,7 +42,7 @@ namespace EmployeeMgtBackend
             services.AddTransient<IEmployeeRepository, EmployeRepository>();
             services.AddTransient<IEmployeeBusines, EmployeeBusiness>();
 
-            //Swagger Implementetion
+            //SWAGGER IMPLEMENTETION
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "EmployeeManagement's", Version = "v1", Description = "EmployeeManagement" });
@@ -58,6 +61,34 @@ namespace EmployeeMgtBackend
                 { "Bearer", new string[] {} }
               });
             });
+
+            //JWT TOKEN
+            var key = Encoding.UTF8.GetBytes(Configuration["Key"]);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = false;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    //ClockSkew = TimeSpan.Zero
+                };
+            });
+
+            //FOR REDIS CASHE
+            services.AddDistributedRedisCache(options =>
+            {
+                options.Configuration = "localhost:6379";
+                //options.InstanceName = "ParkingLot";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,7 +103,6 @@ namespace EmployeeMgtBackend
                 app.UseHsts();
             }
 
-            app.UseAuthentication();
             app.UseAuthentication();
 
             //Swagger Service 
