@@ -18,17 +18,17 @@ namespace EmployeeMgtBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    
+
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeBusines employeeBusiness;
         private readonly IConfiguration configuration;
-        
+
         private IDistributedCache cache;
         private string cacheKey;
         private DistributedCacheEntryOptions options;
 
-        public EmployeeController(IEmployeeBusines employeeBusines,IConfiguration configuration, IDistributedCache cache)
+        public EmployeeController(IEmployeeBusines employeeBusines, IConfiguration configuration, IDistributedCache cache)
         {
             this.employeeBusiness = employeeBusines;
             this.configuration = configuration;
@@ -37,13 +37,13 @@ namespace EmployeeMgtBackend.Controllers
             this.options = new DistributedCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromHours(3.0));
         }
 
-    /// <summary>
-    /// JWTs Token genration.
-    /// </summary>
-    /// <param name="Email">The email.</param>
-    /// <returns></returns>
+        /// <summary>
+        /// JWTs Token genration.
+        /// </summary>
+        /// <param name="Email">The email.</param>
+        /// <returns></returns>
 
-    private string JWTTokenGenration(string Email)
+        private string JWTTokenGenration(string Email)
         {
             var secretkey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Key"]));
             var signinCredentials = new SigningCredentials(secretkey, SecurityAlgorithms.HmacSha256);
@@ -100,7 +100,7 @@ namespace EmployeeMgtBackend.Controllers
                 if (logins != null)
                 {
                     var token = JWTTokenGenration(logins.Email);
-                    return this.Ok(new { Status = true, Message = "Login Success", Data = token,logins.EmployeeId });
+                    return this.Ok(new { Status = true, Message = "Login Success", Data = token, logins.EmployeeId });
                 }
                 return this.NotFound(new { Status = false, Message = "Login Failed" });
             }
@@ -120,13 +120,13 @@ namespace EmployeeMgtBackend.Controllers
         {
             try
             {
-                IEnumerable<EmployeeModels>getResult=this.employeeBusiness.GetAllEmployees() ;
+                IEnumerable<EmployeeModels> getResult = this.employeeBusiness.GetAllEmployees();
                 if (getResult != null)
                 {
                     this.cache.SetString(this.cacheKey, JsonConvert.SerializeObject(getResult));
                 }
-                
-                if (this.cache.GetString(this.cacheKey)!= null)
+
+                if (this.cache.GetString(this.cacheKey) != null)
                 {
                     var data = JsonConvert.DeserializeObject<List<EmployeeModels>>(this.cache.GetString(this.cacheKey));
                     return this.Ok(new { Status = true, Meessage = "Employee Data Retrived Successfully", Data = data });
@@ -135,7 +135,7 @@ namespace EmployeeMgtBackend.Controllers
             }
             catch (Exception e)
             {
-                return this.BadRequest(new { Status = false, Message = e.Message });            
+                return this.BadRequest(new { Status = false, Message = e.Message });
             }
         }
 

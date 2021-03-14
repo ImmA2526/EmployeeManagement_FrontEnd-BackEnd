@@ -38,7 +38,7 @@ namespace EmployeeMgtBackend
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<EmployeeDBContext>
             (options => options.UseSqlServer(Configuration["Data:ConnectionStrings:DefaultConnection"]));
-            
+
             services.AddTransient<IEmployeeRepository, EmployeRepository>();
             services.AddTransient<IEmployeeBusines, EmployeeBusiness>();
 
@@ -103,8 +103,6 @@ namespace EmployeeMgtBackend
                 app.UseHsts();
             }
 
-            app.UseAuthentication();
-
             //Swagger Service 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -112,6 +110,7 @@ namespace EmployeeMgtBackend
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "EmployeeManagement");
             });
 
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseMvc();
         }

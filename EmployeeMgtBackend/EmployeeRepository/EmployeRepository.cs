@@ -27,7 +27,7 @@ namespace EmployeeRepository
         /// <param name="password">The password.</param>
         /// <returns></returns>
         /// <exception cref="Exception">Error in Base64Encode" + e.Message</exception>
-        
+
         public string PasswordEncryption(string password)
         {
             try
@@ -96,7 +96,7 @@ namespace EmployeeRepository
         /// <param name="login">The login.</param>
         /// <returns></returns>
         /// <exception cref="Exception">Error While Login " + e.Message</exception>
-        
+
         public EmployeeModels LoginUser(LoginModel login)
         {
             try
@@ -134,7 +134,7 @@ namespace EmployeeRepository
             }
             catch (Exception e)
             {
-                throw new Exception("Error While Fetching All Employee List"+e.Message);
+                throw new Exception("Error While Fetching All Employee List" + e.Message);
             }
         }
 
@@ -143,7 +143,7 @@ namespace EmployeeRepository
         /// </summary>
         /// <param name="employeeId"></param>
         /// <returns></returns>
-        
+
         public IEnumerable<EmployeeModels> GetEmployee_ID(int employeeId)
         {
             try
@@ -163,18 +163,18 @@ namespace EmployeeRepository
         /// </summary>
         /// <param name="update"></param>
         /// <returns></returns>
-        
+
         public EmployeeModels UpdateEmployee(EmployeeModels updateEmployee)
         {
             try
             {
                 //var updateResult = employeeContext.EmployeeTable.FirstOrDefault(e => e.EmployeeId == updateEmployee.EmployeeId);
-                string password =updateEmployee.Password;
+                string password = updateEmployee.Password;
                 string encodePass = PasswordEncryption(password);
                 updateEmployee.Password = encodePass;
-                
+
                 this.employeeContext.Update(updateEmployee);
-                var resul= this.employeeContext.SaveChanges();
+                var resul = this.employeeContext.SaveChanges();
                 if (resul > 0)
                 {
                     return updateEmployee;
