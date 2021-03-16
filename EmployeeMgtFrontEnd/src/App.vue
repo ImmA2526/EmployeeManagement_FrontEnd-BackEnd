@@ -1,20 +1,31 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">
+    <!-- <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+  <!-- <Login/> -->
+  <!-- <AddEmployee/> -->
+  <Table/>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import Table from './components/Pages/Table'
+// import AddEmployee from './components/Pages/AddEmployee.vue'
+// import HelloWorld from './components/HelloWorld.vue'
+// import Login from './components/Pages/Login'
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    // HelloWorld,
+    // Login,
+    Table
+    // AddEmployee,
   }
 }
 </script>
 
-<style>
+<st
+    AddEmployeeyle>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

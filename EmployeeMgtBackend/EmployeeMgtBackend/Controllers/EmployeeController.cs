@@ -1,6 +1,7 @@
 ﻿using EmployeeBusinessLayer.IEmployeeBusiness;
 using EmployeeModel;
 using EmployeeModelLayer;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +19,7 @@ namespace EmployeeMgtBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowAllHeaders")]
 
     public class EmployeeController : ControllerBase
     {
@@ -138,7 +140,7 @@ namespace EmployeeMgtBackend.Controllers
                 return this.BadRequest(new { Status = false, Message = e.Message });
             }
         }
-
+        //UPDATION METHOD TO GET RECORD 
         /// <summary>
         /// Retrive Employee By Employee ID for Performing Update Operation 
         /// </summary>

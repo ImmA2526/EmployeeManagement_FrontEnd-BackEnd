@@ -89,6 +89,18 @@ namespace EmployeeMgtBackend
                 options.Configuration = "localhost:6379";
                 //options.InstanceName = "ParkingLot";
             });
+
+            //CORS IMPLEMENTETION
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllHeaders",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -102,6 +114,8 @@ namespace EmployeeMgtBackend
             {
                 app.UseHsts();
             }
+
+            app.UseCors("AllowAllHeaders");
 
             //Swagger Service 
             app.UseSwagger();
