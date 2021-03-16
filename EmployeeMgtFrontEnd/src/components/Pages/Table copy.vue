@@ -266,7 +266,6 @@ export default {
           alert("Employee Remove Sussefully...");
           this.GetAllEmployee();
           //  setTimeout(()=>1000   ,this.GetAllEmployee());
-
           console.log(response);
         })
         .catch((error) => {
