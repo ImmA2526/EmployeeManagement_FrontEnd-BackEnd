@@ -79,7 +79,7 @@
       </div>
 
       <!-- MODALS Edit Purpose -->
-      <div>
+      <form  @submit.stop.prevent>
         <div
           card
           class="modal fade "
@@ -151,10 +151,12 @@
                     placeholder="City"
                     v-model="currentEmployee.city"
                   ></b-form-input>
+                  
                   <b-form-input
                     id="state"
                     v-model="currentEmployee.state"
                   ></b-form-input>
+                  
                   <b-form-input
                     id="pin"
                     v-model="currentEmployee.zip"
@@ -191,6 +193,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" 
+                  data-dismiss="modal"
                 v-on:click="UpdateEmployee(employees)"
                 class="btn btn-primary btn-sm">
                   Update Changes
@@ -206,7 +209,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </form> <!-- MODALS -->
     </center>
   </div>
 </template>
@@ -227,37 +230,19 @@ export default {
 
   methods: {
     GetAllEmployee() {
-      // this.Loadding = true;
       employeeService
         .getEmployees()
         .then((response) => {
           this.employees = response.data.data;
           console.log(response.data.data);
-          // this.Loadding = false;
           console.log("the Data is Employee");
         })
         .catch((error) => {
           console.log(error);
         });
     }, //Get Employee
-
-    //Edit Employee By Id
-
-    // GetParticularEmployee(employeeId) {
-    //   // this.Loadding = true;
-    //   employeeService
-    //     .getEmployee(employeeId)
-    //     .then((response) => {
-    //       this.employees = response.data.data;
-    //       console.log(response.data.data);
-    //       // this.Loadding = false;
-    //       console.log("the Data is Employee");
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // }, //Get Employee
-
+    
+//Update Employee 
     UpdateEmployee(employees) {
       console.log("All Employee for Update ",employees);
       const employeeData = {
@@ -275,11 +260,9 @@ export default {
       employeeService
         .updateEmployee(employeeData,this.currentEmployee)
         .then((response) => {
-          // localStorage.setItem("AccessToken", response.data.data);
-          // localStorage.setItem("UserId", response.data.id);
-          setTimeout(() => this.redirect(), 1400);
-          // this.$router.push("/Register");
-          console.log(response.data.data);
+          console.log("The Data is :",response.data.data);
+          alert("Employee Record Updated Succesfully...");
+          this.GetAllEmployee();
         })
         .catch((error) => {
           console.log(error);
@@ -292,11 +275,9 @@ export default {
       employeeService
         .RemoveEmployee(employeeId)
         .then((response) => {
+          console.log("The Response Data is: ",response);
           alert("Employee Remove Sussefully...");
           this.GetAllEmployee();
-          //  setTimeout(()=>1000   ,this.GetAllEmployee());
-
-          console.log(response);
         })
         .catch((error) => {
           console.log(error);

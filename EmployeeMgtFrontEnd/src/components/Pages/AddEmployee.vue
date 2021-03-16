@@ -252,8 +252,6 @@ export default {
       userService
         .registration(userData)
         .then((response) => {
-          // localStorage.setItem("AccessToken", response.data.data);
-          // localStorage.setItem("UserId", response.data.id);
           setTimeout(() => this.redirect(), 1400);
           // this.$router.push("/Register");
           console.log(response.data.data);

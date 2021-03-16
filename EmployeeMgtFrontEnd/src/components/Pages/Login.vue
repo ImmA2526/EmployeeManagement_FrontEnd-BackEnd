@@ -157,8 +157,7 @@ export default {
         .then((response) => {
           localStorage.setItem("AccessToken", response.data.data);
           localStorage.setItem("UserId", response.data.id);
-          // setTimeout(() => this.redirect(), 1400);
-          // this.$router.push("/Register");
+          this.$router.push("/home");
           console.log(response.data.data);
         })
         .catch((error) => {

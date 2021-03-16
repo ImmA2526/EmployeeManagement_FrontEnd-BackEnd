@@ -169,9 +169,10 @@ namespace EmployeeRepository
             try
             {
                 //var updateResult = employeeContext.EmployeeTable.FirstOrDefault(e => e.EmployeeId == updateEmployee.EmployeeId);
-                string password = updateEmployee.Password;
-                string encodePass = PasswordEncryption(password);
-                updateEmployee.Password = encodePass;
+
+                //string password = updateEmployee.Password;
+                //string encodePass = PasswordEncryption(password);
+                //updateEmployee.Password = encodePass;
 
                 this.employeeContext.Update(updateEmployee);
                 var resul = this.employeeContext.SaveChanges();

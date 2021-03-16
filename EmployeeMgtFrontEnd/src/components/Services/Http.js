@@ -3,7 +3,7 @@ const baseUrl = "https://localhost:5001/api"
 
 export default
     {
-        // Add Data 
+// Add Data 
 
         post(requestUrl, data) {
             return axios({
@@ -16,7 +16,7 @@ export default
                 }
             })
         },
-        // Get Data 
+// Get Data 
 
         get(requestUrl) {
             return axios({
@@ -28,19 +28,21 @@ export default
                 }
             })
         },
-        // Edit Method 
+// Edit Method 
 
-        PUT(requestUrl) {
+        PUT(requestUrl,employeeData) {
             return axios({
                 method: 'put',
                 url: `${baseUrl}${requestUrl}`,
+                data:employeeData,
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': localStorage.getItem("AccessToken")
                 }
             })
         },
-        // Delete Method 
+        
+// Delete Method 
 
         DELETE(requestUrl) {
             return axios({
