@@ -321,6 +321,7 @@ div.modal-content {
     border-top-left-radius: calc(0.3rem - 1px);
     border-top-right-radius: calc(0.3rem - 1px);
     background-color: #00ff1f57;
+
 }
 </style>
 
